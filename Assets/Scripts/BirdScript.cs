@@ -14,24 +14,30 @@ public class BirdScript : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetButtonDown("Jump"))
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (dead == false)
         {
-            rb.velocity = Vector2.zero;
-            rb.AddForce(Vector2.up * jumpForce);
-        }
-        while(dead == false)
-        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(Vector2.up * jumpForce);
+            }
             rb.transform.Translate(new Vector3(1, 0, 0) * forwardSpeed * Time.deltaTime);
             rb.transform.Translate(new Vector3(1, 0, 0) * forwardSpeed * Time.deltaTime);
         }
-        
+
+        if (rb.transform.position.x >= 53) {
+            dead = true;
+            Debug.Log("¡Felicidades! ¡Has ganado!");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
         dead = true;
     }
 }
